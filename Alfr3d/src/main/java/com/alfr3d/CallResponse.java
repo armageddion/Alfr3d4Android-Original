@@ -1,10 +1,25 @@
 package com.alfr3d;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+import android.widget.TextView;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class CallResponse extends Activity {
 
@@ -12,8 +27,27 @@ public class CallResponse extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_response);
-        // Show the Up button in the action bar.
-        setupActionBar();
+
+        // Get the message from the intent
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainAlfr3d.EXTRA_MESSAGE);
+
+        // Create the text view
+        TextView textView = new TextView(this);
+        textView.setTextSize(40);
+        textView.setText(message);
+
+        // Set the text view as the activity layout
+        setContentView(textView);
+        // curl: "http://alfr3d.no-ip.org/cgi-bin/test2.py?command=Blink"
+
+        new RequestTask().execute("http://alfr3d.no-ip.org/cgi-bin/test2.py?command="+message);
+
+        // Make sure we're running on Honeycomb or higher to use ActionBar APIs
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // Show the Up button in the action bar.
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     /**
@@ -50,4 +84,41 @@ public class CallResponse extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+}
+
+//"http://alfr3d.no-ip.org/cgi-bin/test2.py?command=Blink"
+class RequestTask extends AsyncTask<String, String, String> {
+
+    @Override
+    protected String doInBackground(String... uri) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpResponse response;
+        String responseString = null;
+        try {
+            response = httpclient.execute(new HttpGet(uri[0]));
+            StatusLine statusLine = response.getStatusLine();
+            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                response.getEntity().writeTo(out);
+                out.close();
+                responseString = out.toString();
+            } else{
+                //Closes the connection.
+                response.getEntity().getContent().close();
+                throw new IOException(statusLine.getReasonPhrase());
+            }
+        } catch (ClientProtocolException e) {
+            //TODO Handle problems..
+        } catch (IOException e) {
+            //TODO Handle problems..
+        }
+        return responseString;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        //Do anything with response..
+    }
 }
