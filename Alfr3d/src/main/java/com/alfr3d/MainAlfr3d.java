@@ -1,6 +1,5 @@
 package com.alfr3d;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
