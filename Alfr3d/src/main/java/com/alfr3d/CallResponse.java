@@ -2,9 +2,11 @@ package com.alfr3d;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,22 +34,45 @@ public class CallResponse extends Activity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainAlfr3d.EXTRA_MESSAGE);
 
-        // Create the text view
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-
-        // Set the text view as the activity layout
-        setContentView(textView);
-        // curl: "http://alfr3d.no-ip.org/cgi-bin/test2.py?command=Blink"
-
-        new RequestTask().execute("http://alfr3d.no-ip.org/cgi-bin/test2.py?command="+message);
-
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        // get settings
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String alfr3d_url= mySharedPreferences.getString("alfr3d_url_preference","alfr3d");
+        String full_alfr3d_call = alfr3d_url+"/cgi-bin/test2.py?command="+message;
+
+        // curl: "http://alfr3d.no-ip.org/cgi-bin/test2.py?command=Blink"
+        if (full_alfr3d_call.substring(0,7).equals("http://"))
+        {
+            new RequestTask().execute(full_alfr3d_call);
+        }
+        else
+        {
+            new RequestTask().execute("http://"+full_alfr3d_call);
+        }
+
+        // Create the text view
+        TextView Alfr3dURLView = (TextView) findViewById(R.id.alfr3d_url);
+        Alfr3dURLView.setTextSize(20);
+        Alfr3dURLView.setText("Alfr3d URL: "+alfr3d_url);
+
+        // Create the text view
+        TextView MessageView = (TextView) findViewById(R.id.message);
+        MessageView.setTextSize(20);
+        MessageView.setText("Command: "+message);
+
+
+        // Create the text view
+        TextView full_callView = (TextView) findViewById(R.id.full_call);
+        full_callView.setTextSize(20);
+        full_callView.setText("Full URL Call: \n"+full_alfr3d_call);
+
+        // Set the text view as the activity layout
+        //setContentView(textView);
     }
 
     /**
@@ -79,6 +104,9 @@ public class CallResponse extends Activity {
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 //
                 NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
