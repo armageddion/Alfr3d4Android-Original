@@ -52,7 +52,8 @@ public class CallResponse extends Activity {
         }
         else
         {
-            new RequestTask().execute("http://"+full_alfr3d_call);
+            full_alfr3d_call = "http://"+full_alfr3d_call;
+            new RequestTask().execute(full_alfr3d_call);
         }
 
         // Create the text view

@@ -2,12 +2,15 @@ package com.alfr3d;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainAlfr3d extends Activity {
     public final static String EXTRA_MESSAGE = "com.test2.MESSAGE";
@@ -16,6 +19,13 @@ public class MainAlfr3d extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alfr3d_main);
+
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String alfr3d_url= mySharedPreferences.getString("alfr3d_url_preference","alfr3d");
+
+        // Create the text view
+        TextView Alfr3dURLView = (TextView) findViewById(R.id.current_url);
+        Alfr3dURLView.setText("Alfr3d URL: "+alfr3d_url);
     }
 
 
@@ -45,6 +55,14 @@ public class MainAlfr3d extends Activity {
         startActivity(intent);
     }
 
+    public void sendBlink(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, CallResponse.class);
+        String message = "Blink";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -55,6 +73,12 @@ public class MainAlfr3d extends Activity {
             case R.id.action_settings:
                 //openSettings();
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_reset:
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -5,12 +5,13 @@
     <string name="action_settings">Settings</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
+    <string name="button_blink">Blink</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_display_message">My Message</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_search">Search</string>
     <string name="url_string">Alfr3d Url</string>
-    <string name="default_url">alfr3d.no-ip.org</string>
+    <string name="default_url">no url defined</string>
     <string name="request">request</string>
     <string name="title_activity_call_response">Response</string>
     <string name="title_activity_settings">Settings</string>
