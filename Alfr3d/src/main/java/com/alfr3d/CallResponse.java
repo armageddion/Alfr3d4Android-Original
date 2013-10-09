@@ -44,8 +44,8 @@ public class CallResponse extends Activity {
 
         // get settings
         SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String alfr3d_url= mySharedPreferences.getString("alfr3d_url_preference","alfr3d");
-        String full_alfr3d_call = alfr3d_url+"/cgi-bin/test2.py?command="+message;
+        String alfr3d_url= mySharedPreferences.getString("alfr3d_url_preference","url not set");
+        String full_alfr3d_call = alfr3d_url+"/cgi-bin/alfr3d.cgi?command="+message;
 
         // curl: "http://alfr3d.no-ip.org/cgi-bin/test2.py?command=Blink"
         if (!full_alfr3d_call.substring(0,7).equals("http://"))
