@@ -1,6 +1,7 @@
 package com.alfr3d;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -46,15 +48,47 @@ public class CallResponse extends Activity {
         String full_alfr3d_call = alfr3d_url+"/cgi-bin/test2.py?command="+message;
 
         // curl: "http://alfr3d.no-ip.org/cgi-bin/test2.py?command=Blink"
-        if (full_alfr3d_call.substring(0,7).equals("http://"))
-        {
-            new RequestTask().execute(full_alfr3d_call);
-        }
-        else
+        if (!full_alfr3d_call.substring(0,7).equals("http://"))
         {
             full_alfr3d_call = "http://"+full_alfr3d_call;
-            new RequestTask().execute(full_alfr3d_call);
         }
+
+        final String finalCall = full_alfr3d_call;
+
+        //new RequestTask().execute(finalCall);
+        final ProgressDialog progressDialog = ProgressDialog.show(this, "", "Please wait...");
+        new Thread() {
+            public void run() {
+                try{
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpResponse response;
+                    String responseString = null;
+                    try {
+                        response = httpclient.execute(new HttpGet(finalCall));
+                        StatusLine statusLine = response.getStatusLine();
+                        if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                            ByteArrayOutputStream out = new ByteArrayOutputStream();
+                            response.getEntity().writeTo(out);
+                            out.close();
+                            responseString = out.toString();
+                        } else{
+                            //Closes the connection.
+                            response.getEntity().getContent().close();
+                            throw new IOException(statusLine.getReasonPhrase());
+                        }
+                    } catch (ClientProtocolException e) {
+                        //TODO Handle problems..
+                    } catch (IOException e) {
+                        //TODO Handle problems..
+                    }
+                }
+                catch (Exception e) {
+                    Log.e("tag", e.getMessage());
+                }
+                // dismiss the progress dialog
+                progressDialog.dismiss();
+            }
+        }.start();
 
         // Create the text view
         TextView Alfr3dURLView = (TextView) findViewById(R.id.alfr3d_url);
@@ -72,8 +106,6 @@ public class CallResponse extends Activity {
         full_callView.setTextSize(20);
         full_callView.setText("Full URL Call: \n"+full_alfr3d_call);
 
-        // Set the text view as the activity layout
-        //setContentView(textView);
     }
 
     /**
