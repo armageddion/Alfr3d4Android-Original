@@ -10,5 +10,9 @@
             android:summary="Set Alfr3d URL"
             android:dialogTitle="@string/url_string"
             android:hint="@string/default_url" />
+        <CheckBoxPreference
+            android:key="node_enabled"
+            android:title="Enable Node"
+            android:summary="Uncheck to use CGI" />
     </PreferenceCategory>
 </PreferenceScreen>

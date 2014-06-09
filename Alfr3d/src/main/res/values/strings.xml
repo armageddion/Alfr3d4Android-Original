@@ -17,5 +17,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="host_settings">Host Settings</string>
     <string name="action_reset">Reset</string>
+    <string name="blink_button">Blink Button</string>
+    <string name="welcome_home_button">Welcome Home Button</string>
 
 </resources>
