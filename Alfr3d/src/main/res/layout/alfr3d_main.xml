@@ -48,4 +48,29 @@
         android:layout_alignLeft="@+id/textView"
         android:layout_alignRight="@+id/button_blink" />
 
+    <Switch android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch 1"
+        android:layout_below="@+id/button_blink"
+        android:layout_alignRight="@+id/button_blink"
+        android:layout_marginTop="19dp"
+        android:layout_alignLeft="@+id/textView" />
+
+    <Switch android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch 2"
+        android:layout_below="@+id/switch1"
+        android:layout_alignRight="@+id/switch1"
+        android:layout_alignLeft="@+id/switch1" />
+
+    <Switch android:id="@+id/switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch 3"
+        android:layout_below="@+id/switch2"
+        android:layout_alignLeft="@+id/switch2"
+        android:layout_alignRight="@+id/switch2" />
+
 </RelativeLayout>
