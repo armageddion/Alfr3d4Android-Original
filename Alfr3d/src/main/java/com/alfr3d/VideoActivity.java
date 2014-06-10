@@ -16,7 +16,8 @@ public class VideoActivity extends Activity {
 
         VideoView vidView = (VideoView)findViewById(R.id.myVideo);
 
-        String vidAddress = "http://alfr3d.no-ip.org:8181/video";
+        //String vidAddress = "http://alfr3d.no-ip.org:8181/video";
+        String vidAddress = "http://10.0.0.11:8086";
         Uri vidUri = Uri.parse(vidAddress);
 
         vidView.setVideoURI(vidUri);
