@@ -15,12 +15,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.alfr3d.MainAlfr3d"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name"
+            android:parentActivityName="com.alfr3d.SplashActivity">
         </activity>
         <activity
             android:name="com.alfr3d.CallResponse"
@@ -45,6 +41,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.alfr3d.MainAlfr3d" />
+        </activity>
+        <activity
+            android:name="com.alfr3d.SplashActivity"
+            android:label="@string/title_activity_splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

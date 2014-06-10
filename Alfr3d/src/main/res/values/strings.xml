@@ -21,5 +21,6 @@
     <string name="blink_button">Blink Button</string>
     <string name="welcome_home_button">Welcome Home Button</string>
     <string name="start_video_button">Start Video Button</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>
