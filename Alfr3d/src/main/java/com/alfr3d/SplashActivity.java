@@ -28,7 +28,7 @@ public class SplashActivity extends Activity {
             public void run(){
                 try{
                     super.run();
-                    sleep(3000);   // delay 10 sec
+                    sleep(700);
                 } catch (Exception e){
                     //TODO
                 } finally {
