@@ -67,6 +67,11 @@ public class MainAlfr3d extends Activity {
         startActivity(intent);
     }
 
+    public void startVideo(View view) {
+        Intent intent = new Intent(this, VideoActivity.class);
+        startActivity(intent);
+    }
+
     public void sendBlink(View view) {
         // Do something in response to button
         Intent intent = new Intent(this, CallResponse.class);

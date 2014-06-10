@@ -38,6 +38,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.alfr3d.MainAlfr3d" />
         </activity>
+        <activity
+            android:name="com.alfr3d.VideoActivity"
+            android:label="@string/title_activity_video"
+            android:parentActivityName="com.alfr3d.MainAlfr3d" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.alfr3d.MainAlfr3d" />
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" >
